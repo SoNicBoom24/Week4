@@ -1,7 +1,10 @@
 package com.example.week4;
 
 import org.springframework.http.MediaType;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 public class MathAPI {
@@ -30,10 +33,10 @@ public class MathAPI {
         return n1%n2;
     }
 
-    @RequestMapping(value = "/max", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public double myMax(@RequestBody MaxRequest eiei) {
-        return Math.max(eiei.a, eiei.b);
+    @RequestMapping(value = "/max", method = RequestMethod.POST)
+    public double myMax(@RequestBody MultiValueMap<String, String > n) {
+        Map<String, String> d = n.toSingleValueMap();
+        return Math.max(Double.parseDouble(d.get("n1")), Double.parseDouble(d.get("n2")));
     }
-
 
 }

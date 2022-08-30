@@ -4,6 +4,10 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.*;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Route(value = "cal.py")
@@ -79,6 +83,21 @@ public class MathView extends VerticalLayout {
             String out = WebClient.create()
                     .get()
                     .uri("http://localhost:8080/mod/"+num1+"/"+num2)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+            n3.setValue(out);
+        });
+
+        btnMax.addClickListener(event ->{
+            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+            formData.add("n1", n1.getValue()); // key คือ n1, value คือ n1.getValue())
+            formData.add("n2", n2.getValue());
+            String out = WebClient.create()
+                    .post()
+                    .uri("http://localhost:8080/max")
+                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                    .body(BodyInserters.fromFormData(formData))
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();
