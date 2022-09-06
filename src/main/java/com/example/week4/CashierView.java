@@ -9,7 +9,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@Route(value = "kidtang")
+@Route(value = "kidtang.c")
 public class CashierView extends VerticalLayout {
     private TextField tf1, tf2, tf3, tf4, tf5, tf6, tf7, tf8;
     private Button btn;
